@@ -1,25 +1,28 @@
 import React, {useState ,createContext, useEffect } from 'react'
 import { createDefaultImportMeta } from 'vite/module-runner'
-import { getLocalStorage } from '../utils/localStorage'
+import { getLocalStorage, setLocalStorage } from '../utils/localStorage'
 export const AuthContext = createContext()
 
 const AuthProvider = ({children}) => {
-    const [userData, setUserData] = useState(null)
+    // const [userData, setUserData] = useState(null)
+    const [userData, setUserData] = useState([])
 
     useEffect(()=>{
-        const {employees,admin}=getLocalStorage()
-    setUserData({employees,admin})
+      setLocalStorage()
+        const {employees}=getLocalStorage()
+    setUserData(employees)
     },[])
     
 
   return (
-    <div>
-        <AuthContext.Provider value={userData} >
+    // <div>
+        <AuthContext.Provider value={[userData,setUserData]} >
             {children}
         </AuthContext.Provider>
       
-    </div>
+    // </div>
   )
 }
 
 export default AuthProvider
+
